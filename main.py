@@ -21,7 +21,7 @@ def getCustomers(storeDomain, accessToken):
             continue
         customers = response.json()['customers']
         if len(customers) == 0:
-            log(f'empty:'{junkEmail})
+            log(f'empty:{junkEmail}')
         for customer in customers:
             customer_id = customer.get('id', '')
             response = requests.delete(f'https://{storeDomain}.myshopify.com/admin/api/2023-10/customers/{customer_id}.json', headers={'X-Shopify-Access-Token': accessToken})
