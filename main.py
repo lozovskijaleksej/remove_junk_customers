@@ -8,6 +8,13 @@ def log(message):
 
 
 def getCustomers(storeDomain, accessToken):
+    junkEmails = {}
+    junkFile = open('emails.txt', 'r')
+    while True:
+        email = junkFile.readline()
+        if not email:
+            break
+        junkEmails.update({email.split()[0]:True})
     since_id = 0
     while True:
         response = requests.get(f'https://{storeDomain}.myshopify.com/admin/api/2023-10/customers.json?since_id={since_id}', headers={'X-Shopify-Access-Token': accessToken})
@@ -18,7 +25,15 @@ def getCustomers(storeDomain, accessToken):
         for customer in customers:
             customer_id = customer.get('id', '')
             customer_email = customer.get('email', '')
-            print(f'{customer_id} -> {customer_email}')
+            try:
+                junkEmails[customer_email]
+                response = requests.delete(f'https://{storeDomain}.myshopify.com/admin/api/2023-10/customers/{customer_id}.json', headers={'X-Shopify-Access-Token': accessToken})
+                if response.status_code == 200:
+                    log(f'{customer_email} : True : True')
+                else:
+                    log(f'{customer_email} : True : False')
+            except:
+                log(f'{customer_email} : False')
             since_id = customer_id
         if old_since_id == since_id:
             break
