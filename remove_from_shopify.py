@@ -1,14 +1,8 @@
 import requests
 from datetime import datetime
-
-
-def log(message):
-    logFile = open("history.log", "a")
-    logFile.write(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] : {message}\n')
-
+import helper
 
 def getCustomers(storeDomain, accessToken):
-    junkEmails = {}
     junkFile = open('emails.txt', 'r')
     while True:
         email = junkFile.readline()
@@ -17,18 +11,18 @@ def getCustomers(storeDomain, accessToken):
         junkEmail = email.split()[0]
         response = requests.get(f'https://{storeDomain}.myshopify.com/admin/api/2023-10/customers/search.json?query=email:{junkEmail}', headers={'X-Shopify-Access-Token': accessToken})
         if response.status_code != 200:
-            log(f'False0:{junkEmail}')
+            helper.log(f'False0:{junkEmail}')
             continue
         customers = response.json()['customers']
         if len(customers) == 0:
-            log(f'empty:{junkEmail}')
+            helper.log(f'empty:{junkEmail}')
         for customer in customers:
             customer_id = customer.get('id', '')
             response = requests.delete(f'https://{storeDomain}.myshopify.com/admin/api/2023-10/customers/{customer_id}.json', headers={'X-Shopify-Access-Token': accessToken})
             if response.status_code != 200:
-                log(f'False1:{junkEmail}')
+                helper.log(f'False1:{junkEmail}')
             else:
-                log(f'success: {junkEmail}')
+                helper.log(f'success: {junkEmail}')
 
 
 def main():
