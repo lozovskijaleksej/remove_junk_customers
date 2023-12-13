@@ -6,7 +6,7 @@ junkFile = open('emails.txt', 'r')
 try:
     client = MailchimpMarketing.Client()
     client.set_config({
-    "api_key": "a798797295e3c50a41ab43ec77a81f6c-us7",
+    "api_key": "b51f1254e99ae691bec6711063a2390b-us7",
     "server": "us7"
     })
     response = client.lists.get_all_lists()
@@ -16,6 +16,8 @@ try:
             break
         junkEmail = email.split()[0]
         for audience in response['lists']:
+            if audience.get('name', '') == 'Product Registration':
+                continue
             audience_id = audience.get('id', '')
             try:
                 client.lists.delete_list_member_permanent(audience_id, helper.get_subscriber_hash(junkEmail))
