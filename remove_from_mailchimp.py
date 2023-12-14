@@ -6,7 +6,7 @@ junkFile = open('emails.txt', 'r')
 try:
     client = MailchimpMarketing.Client()
     client.set_config({
-    "api_key": "b51f1254e99ae691bec6711063a2390b-us7",
+    "api_key": "8aa34c12adc6176196610a76faf0f227-us7",
     "server": "us7"
     })
     response = client.lists.get_all_lists()
