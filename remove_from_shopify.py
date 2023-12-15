@@ -26,8 +26,8 @@ def getCustomers(storeDomain, accessToken):
 
 
 def main():
-    storeDomain = 'pipetto-4a54'
-    accessToken = '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'
+    storeDomain = ''
+    accessToken = ''
     getCustomers(storeDomain, accessToken)
 
 
