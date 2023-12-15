@@ -5,8 +5,8 @@ import helper
 try:
     client = MailchimpMarketing.Client()
     client.set_config({
-    "api_key": "83910b2d7916f8275aa94ef881bd4d8f-us7",
-    "server": "us7"
+    "api_key": "",
+    "server": ""
     })
     response = client.lists.get_all_lists()
     for audience in response['lists']:
